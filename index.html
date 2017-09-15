@@ -1,49 +1,307 @@
 <!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<html lang="en">
+<head>
+<meta charset="utf-8">
 
-		<title>reveal.js</title>
+<title></title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+<meta name="description" content="">    
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+<link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/stata.css" id="theme">
+
+
+<!-- For syntax highlighting -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+
+<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+<script>
+  document.write( '<link rel="stylesheet" href="css/print/' +
+    ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + 
+    '.css" type="text/css" media="print">' );
+</script>
+
+<!--[if lt IE 9]>
+<script src="lib/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+
+<!--
+<section>
+<h1></h1>
+
+<p>
+<h4></h4>
+</p>
+</section>  
+-->
+
+
+<section id="stata-15-新功能简介" class="slide level1">
+<h1>Stata 15 新功能简介</h1>
+<section id="彭华statacorphpeng" class="level2">
+<h2><a href="hpeng@stata.com">彭华@StataCorp</a></h2>
+<section id="stata-中国用户大会" class="level3">
+<h3>2017 Stata 中国用户大会</h3>
+</section>
+</section>
+</section>
+<section id="why-stata" class="slide level1">
+<h1>Why Stata</h1>
+<p>&quot;Stata is a complete, integrated statistical software package that provides everything you need for data analysis, data management, and graphics.&quot;</p>
+</section>
+<section id="stata-15-新功能" class="slide level1">
+<h1>Stata 15 新功能</h1>
+<section id="section" class="level2">
+<h2></h2>
+<ul>
+<li>Extended regression models</li>
+<li>Latent class analysis (LCA)</li>
+<li>Bayesian prefix command</li>
+<li>Linearized dynamic stochastic general equilibrium (DSGE) models</li>
+<li>Dynamic Markdown documents for the web</li>
+</ul>
+</section>
+<section id="section-1" class="level2">
+<h2></h2>
+<ul>
+<li>Nonlinear mixed-effects models</li>
+<li>Spatial autoregressive models (SAR)</li>
+<li>Interval-censored parametric survival-time models</li>
+<li>Finite mixture models (FMMs)</li>
+<li>Mixed logit models</li>
+<li>Nonparametric regression</li>
+</ul>
+</section>
+<section id="section-2" class="level2">
+<h2></h2>
+<ul>
+<li>Power analysis for cluster randomized designs and regression models</li>
+<li>Word and PDF documents</li>
+<li>Graph color transparency/opacity</li>
+<li>ICD-10-CM/PCS support</li>
+<li>Federal Reserve Economic Data (FRED) support</li>
+</ul>
+</section>
+<section id="其他" class="level2">
+<h2>其他</h2>
+<ul>
+<li>Bayesian multilevel models</li>
+<li>Threshold regression</li>
+<li>Panel-data tobit with random coefficients</li>
+<li>Multilevel regression for interval-measured outcomes</li>
+<li>Multilevel tobit regression for censored outcomes</li>
+</ul>
+</section>
+<section id="section-3" class="level2">
+<h2></h2>
+<ul>
+<li>Panel data cointegration tests</li>
+<li>Tests for multiple breaks in time series</li>
+<li>Multiple-group generalized SEM</li>
+<li>Heteroskedastic linear regression</li>
+<li>Poisson models with Heckman-style sample selection</li>
+</ul>
+</section>
+<section id="section-4" class="level2">
+<h2></h2>
+<ul>
+<li>Panel-data nonlinear models with random coefficients</li>
+<li>Bayesian panel-data models</li>
+<li>Panel-data interval regression with random coefficients</li>
+<li>SVG export</li>
+<li>Bayesian survival models</li>
+</ul>
+</section>
+<section id="section-5" class="level2">
+<h2></h2>
+<ul>
+<li>Zero-inflated ordered probit</li>
+<li>Add your own power and sample-size methods</li>
+<li>Bayesian sample-selection models</li>
+<li>Stata in Swedish</li>
+<li>Improvements to the Do-file Editor</li>
+</ul>
+</section>
+<section id="section-6" class="level2">
+<h2></h2>
+<ul>
+<li>Stream random-number generator</li>
+<li>Improvements for Java plugins</li>
+<li>More parallelization in Stata/MP</li>
+</ul>
+</section>
+</section>
+<section id="新功能举例-可重复文件" class="slide level1">
+<h1>新功能举例-可重复文件</h1>
+<p>减少手工编辑文件</p>
+<ul>
+<li>混合Stata输出与格式化文句</li>
+<li>在句子中包括Stata结果</li>
+<li>加入Stata图型</li>
+<li>部分Stata命令支持生成表格</li>
+</ul>
+</section>
+<section id="stata-15命令" class="slide level1">
+<h1>Stata 15命令</h1>
+<ul>
+<li>dyndoc - 转换dynamic Markdown documents成网页</li>
+<li>putdocx - 生成Word文件</li>
+<li>putpdf - 生成PDF文件</li>
+</ul>
+</section>
+<section id="dyndoc举例" class="slide level1">
+<h1>dyndoc举例</h1>
+<p>从<a href="./example.md">dynamic markdown document</a>生成<a href="./example.html">a blog article</a></p>
+</section>
+<section id="dynamic-tags" class="slide level1">
+<h1>dynamic tags</h1>
+<section id="dd_do---stata命令" class="level2">
+<h2>dd_do - Stata命令</h2>
+<pre><code>&lt;&lt;dd_do&gt;&gt;
+sysuse auto
+regress weight displacement
+&lt;&lt;/dd_do&gt;&gt;</code></pre>
+</section>
+<section id="section-7" class="level2">
+<h2></h2>
+<pre><code>. sysuse auto
+(1978 Automobile Data)
+
+. regress weight displacement
+
+      Source |       SS           df       MS      Number of obs   =        74
+-------------+----------------------------------   F(1, 72)        =    289.52
+       Model |  35312313.3         1  35312313.3   Prob &gt; F        =    0.0000
+    Residual |  8781865.08        72  121970.348   R-squared       =    0.8008
+-------------+----------------------------------   Adj R-squared   =    0.7981
+       Total |  44094178.4        73  604029.841   Root MSE        =    349.24
+
+------------------------------------------------------------------------------
+      weight |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+displacement |   7.573261   .4450891    17.02   0.000     6.685992     8.46053
+       _cons |   1525.276   96.74555    15.77   0.000     1332.417    1718.134
+------------------------------------------------------------------------------
+</code></pre>
+</section>
+<section id="section-8" class="level2">
+<h2></h2>
+<p>Attributes改变tag的行为</p>
+<pre><code>&lt;&lt;dd_do:quietly&gt;&gt;
+matrix define eb = e(b)
+&lt;&lt;/dd_do&gt;&gt;</code></pre>
+</section>
+<section id="dd_display---stata结果" class="level2">
+<h2>dd_display - Stata结果</h2>
+<ul>
+<li><strong>displacement</strong>每增加一单位，预计<strong>weight</strong>增加&lt;&lt;dd_display:%9.4f eb[1,1]&gt;&gt;单位</li>
+</ul>
+<ul>
+<li class="fragment"><strong>displacement</strong>每增加一单位，预计<strong>weight</strong>增加 7.5733单位</li>
+</ul>
+</section>
+<section id="dd_graph---stata图型" class="level2">
+<h2>dd_graph - Stata图型</h2>
+<pre><code>&lt;&lt;dd_do:quietly&gt;&gt;
+scatter weight displacement, mcolor(red%30)
+&lt;&lt;/dd_do&gt;&gt;</code></pre>
+<pre><code>&lt;&lt;dd_graph&gt;&gt;</code></pre>
+</section>
+<section id="section-9" class="level2">
+<h2></h2>
+<section id="section-10" class="level4">
+<h4><img src="Graph35.svg" ></h4>
+</section>
+</section>
+</section>
+<section id="putdocx" class="slide level1">
+<h1>putdocx</h1>
+<p>从<a href="./exdocx.do">do-file</a>生成<a href="./exdocx.docx">.docx document</a></p>
+<ul>
+<li>可具体控制文字格式</li>
+<li>灵活可调节的表格输出</li>
+</ul>
+</section>
+<section id="markdown表格" class="slide level1">
+<h1>Markdown表格</h1>
+<p>从<a href="./table.md">Stata命令</a>生成<a href="./table.html">Markdown tables</a></p>
+<ul>
+<li>estimation命令使用 <strong>_coef_table</strong></li>
+<li><strong>table</strong></li>
+<li><strong>estimates table</strong></li>
+</ul>
+</section>
+<section id="dyntext" class="slide level1">
+<h1>dyntext</h1>
+<p>dynamic tag可用于任意文本文件，例如LaTeX</p>
+</section>
+<section id="latex文件" class="slide level1">
+<h1>LaTeX文件</h1>
+<p>从包含dynamic tags的<a href="./extex.md">LaTeX文件</a>生成<a href="./extex.pdf">.pdf file</a></p>
+<ul>
+<li><strong>sjlog</strong> （a user written command)</li>
+<li><strong>pdflatex</strong></li>
+</ul>
+</section>
+<section id="使用pandoc替换statas-markdown命令" class="slide level1">
+<h1>使用pandoc替换Stata's <strong>markdown</strong>命令</h1>
+<p>使用<a href="./dynpandoc.ado"><strong>dynpandoc</strong></a>生成<a href="./china17.md">本次讲座的文件</a></p>
+</section>
+<section id="putpdf" class="slide level1">
+<h1>putpdf</h1>
+<p>从<a href="./expdf.do">do-file</a>生成<a href="./expdf.pdf">.pdf文件</a></p>
+</section>
+<section id="谢谢" class="slide level1">
+<h1>谢谢</h1>
+</section>
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: false,
+
+  // available themes are in /css/theme
+      theme: Reveal.getQueryHash().theme || 'stata', 
+  
+  // default/cube/page/concave/zoom/linear/fade/none
+      transition: Reveal.getQueryHash().transition || 'default',
+  
+  // Optional libraries used to extend on reveal.js
+  dependencies: [
+    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+    { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+    // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+  ]
+  });
+
+</script>
+
+</body>
 </html>

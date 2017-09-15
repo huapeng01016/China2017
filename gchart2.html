@@ -1,0 +1,39 @@
+
+<html>
+<head>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+google.charts.load('upcoming', {'packages':['geochart']});
+google.charts.setOnLoadCallback(drawRegionsMap);
+
+function drawRegionsMap() {
+var data = google.visualization.arrayToDataTable([
+['Country', '1995 population (from GPWv2)'],
+['Turkey', 60759044],
+['Iran', 60918460],
+['Vietnam', 67923856],
+['Germany', 80493304],
+['Mexico', 88962072],
+['Nigeria', 98279048],
+['Japan', 112238080],
+['Bangladesh', 113607864],
+['Pakistan', 139068176],
+['Russia', 145213536],
+['Brazil', 146928896],
+['Indonesia', 153621984],
+['United States', 248126352],
+['India', 911613760],
+['China', 1160943616],
+
+]);
+
+var options = {};
+var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+chart.draw(data, options);
+}
+</script>
+</head>
+</html>
+
+
+<div id="chart_div" style="width: 900px; height: 500px;"></div>

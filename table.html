@@ -1,0 +1,89 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="stmarkdown.css">
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+</script>
+</head>
+<h1><a href="#generate-markdown-tables-from-stata-commands" id="generate-markdown-tables-from-stata-commands">Generate markdown tables from Stata commands</a></h1>
+<ul>
+<li>Stata estimation commands using <strong>_coef_table</strong>,</li>
+<li><strong>table</strong>,</li>
+<li><strong>estimates table</strong></li>
+</ul>
+<h3><a href="#estimation-commands" id="estimation-commands">estimation commands</a></h3>
+<pre><code>. use margex, clear
+
+. logistic outcome i.sex i.group sex#group age
+
+</code></pre>
+<table>
+<thead>
+<tr><th>outcome     </th><th>      Coef.</th><th>   Std. Err.</th><th>      z </th><th> P&gt;|z|</th><th colspan="2">[95% Conf. Interval]     </th></tr>
+</thead>
+<tbody>
+<tr><td>sex          </td><td colspan="6"> </td></tr>
+<tr><td>female       </td><td> -.1486283 </td><td>  .1700125 </td><td>   -0.87 </td><td>  0.382 </td><td>   -.4818467 </td><td>   .1845901 </td></tr>
+<tr><td>group        </td><td colspan="6"> </td></tr>
+<tr><td>2            </td><td> -1.660621 </td><td>  .2376133 </td><td>   -6.99 </td><td>  0.000 </td><td>   -2.126334 </td><td>  -1.194907 </td></tr>
+<tr><td>3            </td><td> -1.886826 </td><td>  .3204395 </td><td>   -5.89 </td><td>  0.000 </td><td>   -2.514876 </td><td>  -1.258776 </td></tr>
+<tr><td>sex#group    </td><td colspan="6"> </td></tr>
+<tr><td>female#2     </td><td>  1.587323 </td><td>  .2803675 </td><td>    5.66 </td><td>  0.000 </td><td>    1.037812 </td><td>   2.136833 </td></tr>
+<tr><td>female#3     </td><td>   .675973 </td><td>  .7993847 </td><td>    0.85 </td><td>  0.398 </td><td>   -.8907923 </td><td>   2.242738 </td></tr>
+<tr><td>age          </td><td>  .0915069 </td><td>   .006574 </td><td>   13.92 </td><td>  0.000 </td><td>    .0786222 </td><td>   .1043917 </td></tr>
+<tr><td>_cons        </td><td> -5.079056</td><td>  .3567167 </td><td>  -14.24 </td><td>  0.000 </td><td>   -5.778208 </td><td>  -4.379904 </td></tr>
+</tbody>
+</table>
+<h3><a href="#table" id="table">table</a></h3>
+<pre><code>. use byssin, clear
+. table workplace smokes race [fw=pop], c(mean prob) format(%9.3f) sc markdown
+</code></pre>
+<p>(Byssinosis incidence)</p>
+<table>
+<thead>
+<tr><th>Dustiness </th><th colspan="6">               Race and Smokes               </th></tr>
+<tr><th>of        </th><th colspan="2"> other       </th><th colspan="2">    white       </th><th colspan="2">    Total       </th></tr>
+<tr><th>workplace </th><th>    no</th><th>    yes</th><th>       no</th><th>    yes</th><th>       no</th><th>    yes</th></tr>
+</thead>
+<tbody>
+<tr><td>least     </td><td> 0.011</td><td>  0.010</td><td>    0.008</td><td>  0.016</td><td>    0.009</td><td>  0.014</td></tr>
+<tr><td>less      </td><td> 0.020</td><td>  0.008</td><td>    0.014</td><td>  0.014</td><td>    0.016</td><td>  0.012</td></tr>
+<tr><td>most      </td><td> 0.082</td><td>  0.168</td><td>    0.083</td><td>  0.230</td><td>    0.083</td><td>  0.193</td></tr>
+</tbody>
+</table>
+<h3><a href="#estimates-table" id="estimates-table">estimates table</a></h3>
+<pre><code>. sysuse auto
+. regress mpg gear turn
+. estimates store small
+. regress mpg gear turn length
+. estimates store large
+. estimates table small large, b(%7.4f) se(%7.4f) stats(N r2_a) markdown
+</code></pre>
+<table>
+<thead>
+<tr><th>     Variable </th><th>  small  </th><th>  large  </th></tr>
+</thead>
+<tbody>
+<tr><td> gear_ratio   </td><td>  3.0329 </td><td>  1.3567 </td></tr>
+<tr><td>              </td><td>  1.3730 </td><td>  1.2898 </td></tr>
+<tr><td> turn         </td><td> -0.7331 </td><td> -0.1219 </td></tr>
+<tr><td>              </td><td>  0.1424 </td><td>  0.1908 </td></tr>
+<tr><td> length       </td><td>         </td><td> -0.1666 </td></tr>
+<tr><td>              </td><td>         </td><td>  0.0387 </td></tr>
+<tr><td> _cons        </td><td> 41.2180 </td><td> 53.3487 </td></tr>
+<tr><td>              </td><td>  8.9907 </td><td>  8.5306 </td></tr>
+<tr><td>            N </td><td>      74 </td><td>      74 </td></tr>
+<tr><td>         r2_a </td><td>  0.5355 </td><td>  0.6275 </td></tr>
+</tbody>
+</table>
+<p>legend: b/se</p>
+<h2><a href="#the-stata-default-markdown-supports-multimarkdown-table-format" id="the-stata-default-markdown-supports-multimarkdown-table-format">The Stata default markdown supports multimarkdown table format</a></h2>
+<ul>
+<li>There must be at least one | per line</li>
+<li>The &ldquo;separator&rdquo; line between headers and table content must contain only |,-, =, :,., +, or spaces</li>
+<li>Cell content must be on one line only</li>
+<li>Columns are separated by |</li>
+<li>The first line of the table, and the alignment/divider line, must start at the beginning of the line</li>
+</ul>

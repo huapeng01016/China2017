@@ -1,0 +1,21 @@
+Title: Incorporating Stata into reproducible documents
+
+Abstract
+--------
+
+Part of reproducible research is eliminating manual steps such
+as hand-editing documents.  Stata 15 introduces several commands
+which facilitate automated document production, including
+<b>dyndoc</b> for converting dynamic Markdown documents to
+web pages, <b>putdocx</b> for creating Word documents, and
+<b>putpdf</b> for creating PDF files.
+
+These commands allow you to mix formatted text and Stata
+output and allow you to embed Stata graphs, in-line Stata
+results, and tables containing the output from selected
+Stata commands.
+
+We will show these commands in action, demonstrating automating
+the production of documents in various formats, and including Stata
+results in those documents.
+

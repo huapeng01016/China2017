@@ -1,0 +1,104 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="./stmarkdown.css">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+function drawChart() {
+var data = google.visualization.arrayToDataTable([
+  ['MPG', 'Price'],
+
+[22, 4099],
+[17, 4749],
+[22, 3799],
+[20, 4816],
+[15, 7827],
+[18, 5788],
+[26, 4453],
+[20, 5189],
+[16, 10372],
+[19, 4082],
+[14, 11385],
+[14, 14500],
+[21, 15906],
+[29, 3299],
+[16, 5705],
+[22, 4504],
+[22, 5104],
+[24, 3667],
+[19, 3955],
+[30, 3984],
+[18, 4010],
+[16, 5886],
+[17, 6342],
+[28, 4389],
+[21, 4187],
+[12, 11497],
+[12, 13594],
+[14, 13466],
+[22, 3829],
+[14, 5379],
+[15, 6165],
+[18, 4516],
+[14, 6303],
+[20, 3291],
+[21, 8814],
+[19, 5172],
+[19, 4733],
+[18, 4890],
+[19, 4181],
+[24, 4195],
+[16, 10371],
+[28, 4647],
+[34, 4425],
+[25, 4482],
+[26, 6486],
+[18, 4060],
+[18, 5798],
+[18, 4934],
+[19, 5222],
+[19, 4723],
+[19, 4424],
+[24, 4172],
+[17, 9690],
+[23, 6295],
+[25, 9735],
+[23, 6229],
+[35, 4589],
+[24, 5079],
+[21, 8129],
+[21, 4296],
+[25, 5799],
+[28, 4499],
+[30, 3995],
+[14, 12990],
+[26, 3895],
+[35, 3798],
+[18, 5899],
+[31, 3748],
+[18, 5719],
+[23, 7140],
+[41, 5397],
+[25, 4697],
+[25, 6850],
+[17, 11995],
+
+]);
+
+var options = {
+  title: 'MPG vs. Price comparison',
+  hAxis: {title: 'MPG', minValue: 0, maxValue: 50},
+  vAxis: {title: 'Price', minValue: 2000, maxValue: 20000},
+  legend: 'none'
+};
+
+var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+chart.draw(data, options);
+}
+</script>
+</head>
+</html>
+<h1><a href="#use-google-chart-library-and-stata-dyndoc" id="use-google-chart-library-and-stata-dyndoc">Use Google chart library and Stata dyndoc</a></h1>
+<div id="chart_div" style="width: 900px; height: 500px;"></div>

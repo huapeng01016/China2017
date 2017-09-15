@@ -1,0 +1,18 @@
+{com}. sysuse auto, clear
+{txt}(1978 Automobile Data)
+
+{com}. regress mpg price
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        74
+{txt}{hline 13}{c +}{hline 34}   F(1, 72)        = {res}    20.26
+{txt}       Model {c |} {res} 536.541807         1  536.541807   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 1906.91765        72  26.4849674   {txt}R-squared       ={res}    0.2196
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2087
+{txt}       Total {c |} {res} 2443.45946        73  33.4720474   {txt}Root MSE        =   {res} 5.1464
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         mpg{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}price {c |}{col 14}{res}{space 2}-.0009192{col 26}{space 2} .0002042{col 37}{space 1}   -4.50{col 46}{space 3}0.000{col 54}{space 4}-.0013263{col 67}{space 3}-.0005121
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 26.96417{col 26}{space 2} 1.393952{col 37}{space 1}   19.34{col 46}{space 3}0.000{col 54}{space 4} 24.18538{col 67}{space 3} 29.74297
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}

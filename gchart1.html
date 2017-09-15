@@ -1,0 +1,104 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="http://dimebox.stata.com/~hop/markdown.css">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+function drawChart() {
+var data = google.visualization.arrayToDataTable([
+  ['turn', 'weight'],
+[40, 2930],
+[40, 3350],
+[35, 2640],
+[40, 3250],
+[43, 4080],
+[43, 3670],
+[34, 2230],
+[42, 3280],
+[43, 3880],
+[42, 3400],
+[44, 4330],
+[43, 3900],
+[45, 4290],
+[34, 2110],
+[43, 3690],
+[31, 3180],
+[41, 3220],
+[40, 2750],
+[43, 3430],
+[35, 2120],
+[46, 3600],
+[46, 3600],
+[46, 3740],
+[33, 1800],
+[43, 2650],
+[51, 4840],
+[48, 4720],
+[41, 3830],
+[39, 2580],
+[48, 4060],
+[44, 3720],
+[41, 3370],
+[45, 4130],
+[43, 2830],
+[43, 4060],
+[42, 3310],
+[42, 3300],
+[42, 3690],
+[43, 3370],
+[40, 2730],
+[43, 4030],
+[37, 3260],
+[37, 1800],
+[36, 2200],
+[38, 2520],
+[44, 3330],
+[42, 3700],
+[42, 3470],
+[45, 3210],
+[40, 3200],
+[43, 3420],
+[41, 2690],
+[37, 2830],
+[36, 2070],
+[34, 2650],
+[35, 2370],
+[32, 2020],
+[34, 2280],
+[38, 2750],
+[36, 2130],
+[36, 2240],
+[34, 1760],
+[33, 1980],
+[38, 3420],
+[34, 1830],
+[36, 2050],
+[36, 2410],
+[35, 2200],
+[36, 2670],
+[36, 2160],
+[35, 2040],
+[35, 1930],
+[36, 1990],
+[37, 3170],
+
+]);
+
+var options = {
+  title: 'weight vs. turn comparison',
+  hAxis: {title: 'turn', minValue: 31, maxValue: 51},
+
+  vAxis: {title: 'weight', minValue: 1760, maxValue: 4840},
+  legend: 'none'
+};
+
+var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+chart.draw(data, options);
+}
+</script>
+</head>
+</html>
+<h1><a href="#use-google-chart-library-and-stata-dyndoc-together" id="use-google-chart-library-and-stata-dyndoc-together">Use Google chart library and Stata dyndoc together</a></h1>
+<div id="chart_div" style="width: 900px; height: 500px;"></div>

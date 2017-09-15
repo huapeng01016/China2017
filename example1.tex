@@ -1,0 +1,337 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{threeparttable}
+\usepackage[english]{babel}
+\usepackage{lscape}
+\usepackage{booktabs}
+\usepackage{color}
+\usepackage{float}
+\floatstyle{plaintop}
+\usepackage{upquote}
+\newfloat{cblock}{!ht}{lop}
+\floatname{cblock}{Code block}
+\definecolor{mygreen}{rgb}{0, 0.6, 0}
+\definecolor{mygray}{gray}{0.85}
+
+\setlength{\headheight}{14pt}
+
+\setlength{\topmargin}{0pt}
+\setlength{\textheight}{587pt}
+\setlength{\footskip}{20pt}
+
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{450pt}
+\usepackage{setspace}
+\usepackage{stata}
+\usepackage{enumerate}
+\usepackage[hmargin=2.8cm, bmargin=2.8cm]{geometry}
+\title{Effects for nonlinear models with interactions of discrete and continuous variables: \\
+\Large Estimating, graphing, and interpreting}
+\date{}
+\begin{document}
+
+\lstset{ %
+  upquote=true,
+  basicstyle=\small\ttfamily,
+  backgroundcolor=\color{mygray},
+  numbers=left
+}
+\maketitle
+
+I want to estimate, graph, and interpret the effects of nonlinear models with interactions of continuous and discrete variables. The results I am after are not trivial, but obtaining what I want using \texttt{margins}, \texttt{marginsplot}, and factor-variable notation is straightforward. 
+
+\section*{Do not create dummy variables, interaction terms, or polynomials}
+
+Suppose I want to use \texttt{probit} to estimate the parameters of the relationship
+
+\begin{equation*}
+P(y|x, d) = \Phi \left(\beta_0 + \beta_1x + \beta_3d + \beta_4xd + \beta_2x^2 \right)  
+\end{equation*}  
+
+\noindent where $y$ is a binary outcome, $d$ is a discrete variable that takes on four values, $x$ is a continuous variable, and $P(y|x,d)$ is the probability of my outcome conditional on covariates. To fit this model in Stata, I would type \\
+
+\texttt{probit y  c.x\#\#i.d c.x\#c.x} \\
+
+I do not need to create variables for the polynomial or for the interactions between the continuous variable $x$ and the different levels of $d$. Stata understands that \texttt{c.x\#c.x} is the square of $x$ and that \texttt{c.x\#\#i.d} corresponds to the variables $x$ and $d$ and their interaction. The result of what I typed would look like this:
+
+<<st_remove>>
+<<st_do>>
+cap cd tex
+!rm ex*
+local oldlinesize = c(linesize)
+set linesize 90
+
+clear 
+set obs 1000
+set seed 111
+
+generate d = int(rbeta(2,3)*4)
+generate x = rnormal()
+generate e = rnormal()
+generate y = .2*(1 + 1*x - 1*x^2 + 1*d - 1*d*x) + e > 0  
+
+label define levels 0 "cero" 1 "uno" 2 "dos" 3 "tres"
+label values d levels
+
+sjlog using ex1
+probit y  c.x##i.d c.x#c.x
+sjlog close
+sjlog clean ex1.smcl, sjlog 
+<</st_do>>
+<</st_remove>>
+
+\begin{stlog}[auto]
+<<st_do:nocommand>>
+sjlog type ex1.log.tex
+<</st_do>>
+\end{stlog}
+
+I did not need to create dummy variables, interaction terms, or polynomials. As we will see below, convenience is not the only reason to use factor-variable notation. Factor-variable notation allows Stata to identify interactions and to distinguish between discrete and continuous variables to obtain correct marginal effects. \\
+
+This example used \texttt{probit}, but most of Stata's estimation commands allow the use of factor variables.  
+
+\section*{Using margins to obtain the effects I am interested in}
+
+I am interested in modeling for individuals the probability of being married (\texttt{married}) as a function of years of schooling (\texttt{education}), the percentile of income distribution to which they belong (\texttt{percentile}), the number of times they have been divorced (\texttt{divorce}), and whether their parents are divorced (\texttt{pdivorce}). I estimate the following effects:
+
+\begin{enumerate}
+\item The average of the change in the probability of being married when each covariate changes. In other words, the average marginal effect of each covariate.
+\item The average of the change in the probability of being married when the interaction of \texttt{divorce} and \texttt{education} changes. In other words, an average marginal effect of an interaction between a continuous and a discrete variable. 
+\item The average of the change in the probability of being married when the interaction of \texttt{divorce} and \texttt{pdivorce} changes. In other words, an average marginal effect of an interaction between two discrete variables. 
+\item The average of the change in the probability of being married when the interaction of \texttt{percentile} and \texttt{education} changes. In other words, an average marginal effect of an interaction between two continuous variables. 
+\end{enumerate}
+
+I fit the model: \\
+
+\texttt{probit married c.education\#\#c.percentile c.education\#i.divorce \\
+\indent \indent i.pdivorce\#\#i.divorce} \\
+
+The average of the change in the probability of being married when the levels of the covariates change is given by
+
+<<st_do:qui>>
+clear 
+set obs 5000
+set seed 111
+generate education  = int(rbeta(4,2)*15)
+generate percentile = int(rbeta(1,7)*100)/100
+generate divorce    = int(rbeta(1,4)*3)
+generate pdivorce   = runiform()<.6
+generate e          = rnormal()
+generate xbeta      = .35*(education*.06 + .5*percentile +   ///
+                      .8*percentile*education                ///
+                      + .07*education*divorce - .5*divorce -  ///
+                      .2*pdivorce - divorce*pdivorce - .1)
+generate married    = xbeta + e > 0 
+
+probit married c.education##c.percentile c.education#i.divorce	///
+	i.pdivorce##i.divorce 
+<</st_do>>
+
+<<st_remove>>
+<<st_do>>
+sjlog using ex2, replace 
+margins, dydx(*)
+sjlog close, replace 
+sjlog clean ex2.smcl, sjlog 
+<</st_do>>
+<</st_remove>>
+
+\begin{stlog}[auto]
+<<st_do:nocommand>>
+sjlog type ex2.log.tex
+<</st_do>>
+\end{stlog}
+
+The first part of the \texttt{margins} output states the statistic it is going to compute, in this case, the average marginal effect. Next, we see the concept of an \texttt{Expression}. This is usually the default prediction (in this case, the conditional probability), but it can be any other prediction available for the estimator or any function of the coefficients, as we will see shortly.\\
+
+When \texttt{margins} computes an effect, it distinguishes between continuous and discrete variables. This is fundamental because a marginal effect of a continuous variable is a derivative, whereas a marginal effect of a discrete variable is the change of the \texttt{Expression}  evaluated at each value of the discrete covariate relative to the \texttt{Expression} evaluated at the base or reference level. This highlights the importance of using factor-variable notation.\\
+
+I now interpret a couple of the effects. On average, a one-year change in education increases the probability of being married by 0.022. On average, the probability of being married is 0.043 smaller in the case where everyone has been divorced once relative to the case where everyone has ever been divorced, an average treatment effect of -0.043. The average treatment effect of being divorced two times is -0.124. \\ 
+
+Now I estimate the average marginal effect of an interaction between a continuous and a discrete variable. Interactions between continuous and discrete variables are changes in the continuous variable evaluated at the different values of the discrete covariate relative to the base level.  To obtain these effects, I type
+
+<<st_remove>>
+<<st_do>>
+sjlog using ex3, replace 
+margins divorce, dydx(education) pwcompare
+sjlog close, replace 
+sjlog clean ex3.smcl, sjlog 
+<</st_do>>
+<</st_remove>>
+
+\begin{stlog}[auto]
+<<st_do:nocommand>>
+sjlog type ex3.log.tex
+<</st_do>>
+\end{stlog}
+
+The average marginal effect of education is 0.039 higher when everyone is divorced two times instead of everyone being divorced one time. The average marginal effect of education is .040 higher when everyone is divorced two times instead of everyone being divorced zero times. The average marginal effect of education is 0 when everyone is divorced one time instead of everyone being divorced zero times. Another way of obtaining this result is by computing a cross or double derivative. In the appendix, I show that taking a double derivative is equivalent to what I did above.\\  
+
+Analyzing the interaction between two discrete variables is similar to analyzing the interaction between a discrete and a continuous variable. We want to see the change from the base level of a discrete variable for a change in the base level of the other variable. We use the \texttt{pwcompare} and \texttt{dydx()} options again.
+
+<<st_remove>>
+<<st_do>>
+sjlog using ex10, replace 
+margins pdivorce, dydx(divorce) pwcompare
+sjlog close, replace 
+sjlog clean ex10.smcl, sjlog 
+<</st_do>>
+<</st_remove>>
+
+\begin{stlog}[auto]
+<<st_do:nocommand>>
+sjlog type ex10.log.tex
+<</st_do>>
+\end{stlog}
+
+The average change in the probability of being married when everyone is once divorced and everyone's parents are divorced, compared with the case where no one's parents are divorced and no one is divorced, is a decrease of 0.161. The average change in the probability of being married when everyone is twice divorced and everyone's parents are divorced, compared with the case where no one's parents are divorced and no one is divorced, is 0. We could have obtained the same result by typing \texttt{margins divorce, dydx(pdivorce) pwcompare}, which again emphasizes the concept of a cross or double derivative.\\
+
+Now I look at the average marginal effect of an interaction between two continuous variables. 
+
+<<st_remove>>
+<<st_do>>
+sjlog using ex4, replace 
+margins,                                            ///
+    expression(normalden(xb())*(_b[percentile] +    ///
+    education*_b[c.education#c.percentile]))        ///
+    dydx(education)
+sjlog close, replace 
+sjlog clean ex4.smcl, sjlog 
+<</st_do>>
+<</st_remove>>
+
+\begin{stlog}[auto]
+<<st_do:nocommand>>
+sjlog type ex4.log.tex
+<</st_do>>
+\end{stlog}
+
+The \texttt{Expression} is the derivative of the conditional probability with respect to \texttt{percentile}. \texttt{dydx(education)} specifies that I want to estimate the derivative of this \texttt{Expression} with respect to education. The average marginal effect in the marginal effect of income percentile attributable to a change in education is .062. \\
+
+Because \texttt{margins} can only take first derivatives of expressions, I obtained a cross derivative by making the expression a derivative. In the appendix, I show the equivalence between this strategy and writing a cross derivative. Also, I illustrate how to verify that your expression for the first derivative is correct.
+
+\section*{Graphing}
+
+After \texttt{margins}, we can plot the results in the output table simply by typing \texttt{marginsplot}. \texttt{marginsplot} works with the conventional graphics options and the Graph Editor. For the first example above, for instance:
+
+<<st_remove>>
+<<st_do>>
+sjlog using ex8, replace 
+quietly margins, dydx(*)
+marginsplot, xlabel(, angle(vertical))
+sjlog close, replace 
+sjlog clean ex8.smcl, sjlog 
+<</st_do>>
+<</st_remove>>
+
+\begin{stlog}[auto]
+<<st_do:nocommand>>
+sjlog type ex8.log.tex
+<</st_do>>
+\end{stlog}
+
+I added the option \texttt{xlabel(, angle(vertical))} to obtain vertical labels for the horizontal axis. The result is as follows:
+
+\begin{center}
+\begin{centering}
+\includegraphics[height=4in]{tex/mplot2.jpg}
+\end{centering}
+\end{center}
+
+\section*{Conclusion}
+
+I illustrated how to compute, interpret, and graph marginal effects for nonlinear models with interactions of discrete and continuous variables. To interpret interaction effects, I used the concepts of a cross or double derivative and an \texttt{Expression}. I used simulated data and the probit model for my examples. However, what I wrote extends to other nonlinear models. 
+
+\section*{Appendix}
+
+To verify that your expression for the first derivative is correct you compare it to the statistic computed by \texttt{margins} with the option \texttt{dydx}(\textit{variable}). For the example in the text: 
+
+<<st_remove>>
+<<st_do>>
+sjlog using ex9, replace 
+margins,                                            ///
+    expression(normalden(xb())*(_b[percentile] +    ///
+    education*_b[c.education#c.percentile]))    
+margins, dydx(percentile)
+sjlog close, replace 
+sjlog clean ex9.smcl, sjlog 
+<</st_do>>
+<</st_remove>>
+
+\begin{stlog}[auto]
+<<st_do:nocommand>>
+sjlog type ex9.log.tex
+<</st_do>>
+\end{stlog}
+
+Average marginal effect of an interaction between a continuous and a discrete variable as a double derivative:
+
+<<st_remove>>
+<<st_do>>
+sjlog using ex7, replace 
+margins, 					       ///
+   expression(normal(_b[education]*education +         ///
+   _b[percentile]*percentile +                         ///
+   _b[c.education#c.percentile]*education*percentile + ///
+   _b[1.divorce#c.education]*education +               ///
+   _b[1.pdivorce]*pdivorce + _b[1.divorce] +           ///
+   _b[1.pdivorce#1.divorce]*1.pdivorce +               ///
+   _b[_cons]) -                                        ///
+   normal(_b[education]*education +                    ///
+   _b[percentile]*percentile +                         ///
+   _b[c.education#c.percentile]*education*percentile   ///
+   + _b[1.pdivorce]*pdivorce +                         ///
+   _b[_cons])) dydx(education)
+sjlog close, replace 
+sjlog clean ex7.smcl, sjlog 
+<</st_do>>
+<</st_remove>>
+
+\begin{stlog}[auto]
+<<st_do:nocommand>>
+sjlog type ex7.log.tex
+<</st_do>>
+\end{stlog}
+
+Average marginal effect of an interaction between two continuous variables as a double derivative:
+
+<<st_remove>>
+<<st_do>>
+sjlog using ex6, replace 
+margins,					            ///	 
+    expression(normalden(xb())*(-xb())*(_b[education]       ///
+    + percentile*_b[c.education#c.percentile] +             ///
+    1.divorce*_b[c.education#1.divorce] +                   ///
+    2.divorce*_b[c.education#2.divorce])*(_b[percentile] +  ///
+    education*_b[c.education#c.percentile]) +               ///
+    normalden(xb())*(_b[c.education#c.percentile]))
+sjlog close, replace 
+sjlog clean ex6.smcl, sjlog 
+<</st_do>>
+<</st_remove>>
+
+\begin{stlog}[auto]
+<<st_do:nocommand>>
+sjlog type ex6.log.tex
+<</st_do>>
+\end{stlog}
+
+The simulated data:
+
+\lstinputlisting{tex/datagen.do}
+
+\end{document}
+
+<<st_do:qui>>
+cap cd ..
+set linesize `oldlinesize'
+<</st_do>>

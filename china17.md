@@ -177,6 +177,14 @@ dynamic tag可用于任意文本文件，例如LaTeX
 
 使用[**dynpandoc**](./dynpandoc.ado)生成[本次讲座的文件](./china17.md)
 
+# Another Example 
+
+Collect results from **tab** to save in docx file
+
+- [data file in xlsx](./example.xlsx)
+- [do-file](./data.do)
+- [.docx document](./example.docx) 
+
 # putpdf
 
 从[do-file](./expdf.do)生成[.pdf文件](./expdf.pdf) 
